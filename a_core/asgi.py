@@ -18,18 +18,17 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'a_core.settings')
 
 django_asgi_app = get_asgi_application()
 
-application = get_asgi_application()
-# from a_core import routing
+from a_core import routing
 
-# application = get_asgi_application({
-#     "http":django_asgi_app,
-#     "websocket":AllowedHostsOriginValidator(
-#         AuthMiddlewareStack(
-#             URLRouter(
-#                 routing.websocket_urlpatterns
-#             )
-#         )
-#     )
-# })
+application = ProtocolTypeRouter({
+    "http":django_asgi_app,
+    "websocket":AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter(
+                routing.websocket_urlpatterns
+            )
+        )
+    )
+})
 
 
